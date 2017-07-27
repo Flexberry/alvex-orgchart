@@ -1302,6 +1302,8 @@ var labelType, useGradients, nativeTextSupport, animate;
 		{
 			var jitTree = tree;
 			jitTree.name = jitTree.displayName;
+			jitTree.data = {};
+			jitTree.data.supervisors=tree.supervisors;
 			for(var c in tree.children)
 				jitTree.children[c] = this.copyTreeForJIT(tree.children[c]);
 			return jitTree;
@@ -1413,11 +1415,14 @@ var labelType, useGradients, nativeTextSupport, animate;
 				// We use it to assign necessary events for them
 				onCreateLabel : function(label, node)
 				{
+					var nodeName=node.name;
+					if(node.data.supervisors.length>0){
+						nodeName+= '<br>['+ node.data.supervisors[0]+']';
+					}
 					label.id = node.id;
 					label.innerHTML = '<table style="height: 100%; width: 100%;" id="' + node.id + '-view-container">'
 								+ '<tr><td style="height=100%;">'
-								+ '<a href="#" id="' + node.id + '-view">' + node.name + '</a>' 
-								+ '</td></tr></table>';
+								+ '<a href="#" id="' + node.id + '-view">' + nodeName+'</a></td></tr></table>';
 
 					YAHOO.util.Event.on(label.id, 'click', me.onContainerClick, node, me);
 					YAHOO.util.Event.on(label.id + '-view', 'click', me.onViewLinkClick, node, me);

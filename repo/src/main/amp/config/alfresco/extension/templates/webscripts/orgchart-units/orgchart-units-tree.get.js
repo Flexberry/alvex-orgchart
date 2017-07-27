@@ -13,6 +13,11 @@ function buildTree(unit, inheritedAdmin) {
 	for each (admin in unit.admins)
 		if(admin.getUserName() == person.properties.userName)
 			isAdmin = true;
+	var supervisors=[];
+	for each (var supervisor in unit.supervisors){
+		supervisors.push(supervisor.firstName+" "+supervisor.lastName);
+	}
+	
 	var el = {
 		name: unit.name,
 		displayName: unit.displayName,
@@ -20,7 +25,8 @@ function buildTree(unit, inheritedAdmin) {
 		groupRef: unit.groupRef,
 		id: unit.id,
 		isAdmin: isAdmin.toString(),
-		children: []
+		children: [],
+		supervisors: supervisors
 	};
 	var cunits = unit.children.sort( sortByWeight );
 	for each (var child in cunits)
