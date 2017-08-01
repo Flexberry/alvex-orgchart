@@ -1304,6 +1304,7 @@ var labelType, useGradients, nativeTextSupport, animate;
 			jitTree.name = jitTree.displayName;
 			jitTree.data = {};
 			jitTree.data.supervisors=tree.supervisors;
+			jitTree.data.supervisorLogins=tree.supervisorLogins;
 			for(var c in tree.children)
 				jitTree.children[c] = this.copyTreeForJIT(tree.children[c]);
 			return jitTree;
@@ -1371,7 +1372,7 @@ var labelType, useGradients, nativeTextSupport, animate;
 				transition : $jit.Trans.Quart.easeInOut,
 
 				// set distance between node and its children
-				levelDistance : 60,
+				levelDistance : 100,
 
 				// distance from the selected node to the center of the canvas
 				offsetX: 0,
@@ -1416,13 +1417,16 @@ var labelType, useGradients, nativeTextSupport, animate;
 				onCreateLabel : function(label, node)
 				{
 					var nodeName=node.name;
+					var supervisor="";
 					if(node.data.supervisors.length>0){
-						nodeName+= '<br>['+ node.data.supervisors[0]+']';
+						var src=Alfresco.constants.PROXY_URI + 'slingshot/profile/avatar/' + node.data.supervisorLogins[0];
+						supervisor= '<div class="photo"><img hspace="5" width="32" height="32" class="photoimg" src="'+src+'">'+ node.data.supervisors[0]+'</div>';
+						
 					}
 					label.id = node.id;
 					label.innerHTML = '<table style="height: 100%; width: 100%;" id="' + node.id + '-view-container">'
 								+ '<tr><td style="height=100%;">'
-								+ '<a href="#" id="' + node.id + '-view">' + nodeName+'</a></td></tr></table>';
+								+ '<a href="#" id="' + node.id + '-view">' + nodeName+'</a>'+supervisor+'</td></tr></table>';
 
 					YAHOO.util.Event.on(label.id, 'click', me.onContainerClick, node, me);
 					YAHOO.util.Event.on(label.id + '-view', 'click', me.onViewLinkClick, node, me);

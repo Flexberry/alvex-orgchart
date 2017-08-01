@@ -3,7 +3,7 @@
 <#macro renderUnit unit>
  {
  	"name": "${unit.name}",
- 	"testEditing": "editing5",
+ 	"testEditing": "editing8",
  	"displayName": "${unit.displayName}",
  	"weight": "${unit.weight}",
  	"groupRef": "${unit.groupRef}",
@@ -19,6 +19,12 @@
  	[
  		<#list unit.supervisors as supervisor>
  			"${supervisor}"<#if supervisor_has_next>,</#if>
+ 		</#list>
+ 	],
+ 	"supervisorLogins":
+ 	[
+ 		<#list unit.supervisorLogins as supervisorLogin>
+ 			"${supervisorLogin}"<#if supervisorLogin_has_next>,</#if>
  		</#list>
  	]
  	<#--
